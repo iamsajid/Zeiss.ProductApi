@@ -14,13 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common/" />
     <Folder Include="Common/Enums/" />
     <Folder Include="Common/Filters/" />
     <Folder Include="Common/Helpers/" />
     <Folder Include="Common/Middleware/" />
     <Folder Include="Features/DeleteProduct/" />
-    <Folder Include="Features/GetProductById/" />
     <Folder Include="Features/UpdateProduct/" />
     <Folder Include="Infrastructure/Migrations/" />
   </ItemGroup>

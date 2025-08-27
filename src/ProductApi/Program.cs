@@ -12,7 +12,10 @@ builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Pr
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(cfg =>
+{
+    cfg.SwaggerDoc("ProductApi", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Zeiss APIs", Version = "v1" });
+});
 
 var app = builder.Build();
 
@@ -20,7 +23,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/ProductApi/swagger.json", "Product API v1");
+    });
 }
 
 app.UseHttpsRedirection();

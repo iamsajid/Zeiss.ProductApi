@@ -7,4 +7,4 @@ public record GetAllProductsQuery() : IRequest<GetAllProductsResponseDto>;
 
 public record GetAllProductsResponseDto(List<ProductDto> Products);
 
-public record ProductDto(int Id, string Name, string Description, decimal Price);
+public record ProductDto(int Id, string Name, string Category, decimal Price, DateTime CreatedAt);

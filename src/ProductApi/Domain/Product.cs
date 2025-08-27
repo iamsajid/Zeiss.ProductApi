@@ -1,7 +1,6 @@
-using System;
-using System.ComponentModel.DataAnnotations;
-
 namespace ProductApi.Domain;
+
+using System.ComponentModel.DataAnnotations;
 
 public class Product
 {

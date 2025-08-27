@@ -2,9 +2,11 @@ namespace ProductApi.Features.CreateProduct;
 
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-
+using ProductApi.Common.Constants;
 
 [ApiController]
+[Tags(AppConstants.ApiTagName)]
+[ApiExplorerSettings(GroupName = AppConstants.ApiGroupName)]
 [Route("api/products")]
 public class CreateProductController : ControllerBase
 {
@@ -15,10 +17,13 @@ public class CreateProductController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpPost]
+    [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [HttpPost(Name = RouteConstants.CreateProduct)]
     public async Task<IActionResult> Create([FromBody] CreateProductCommand command)
     {
         var id = await _mediator.Send(command);
-        return CreatedAtAction(nameof(Create), new { id }, id);
+        return CreatedAtRoute(RouteConstants.GetProductById, new { id }, id);
     }
 }
