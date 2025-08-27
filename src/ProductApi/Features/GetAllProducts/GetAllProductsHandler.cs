@@ -14,7 +14,7 @@ public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, GetAll
         _context = context;
     }
 
-    public async Task<GetAllProductsResponseDto> Handle(GetAllProductsQuery query, CancellationToken cancellationToken)
+    public async Task<GetAllProductsResponseDto> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
     {
         var productDtos = await _context.Products
             .Select(p => new ProductDto(p.ProductId, p.Name, p.Category, p.Price))

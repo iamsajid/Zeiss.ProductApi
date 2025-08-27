@@ -18,6 +18,7 @@ public class CreateProductHandler : IRequestHandler<CreateProductCommand, int>
         var product = new Product
         {
             Name = request.Name,
+            Category = request.Category,
             Price = request.Price,
             AvailableStock = request.Stock
         };
