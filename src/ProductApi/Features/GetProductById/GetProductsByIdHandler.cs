@@ -17,6 +17,6 @@ public class GetProductsByIdHandler : IRequestHandler<GetProductsByIdQuery, Prod
         var product = await _context.Products.FindAsync([request.Id], cancellationToken: cancellationToken);
         if (product == null) return null;
 
-        return new ProductByIdDto(product.ProductId, product.Name, product.Category, product.Price, product.CreatedAt);
+        return new ProductByIdDto(product.ProductId, product.Name, product.Category, product.Price, product.AvailableStock, product.CreatedAt);
     }
 }

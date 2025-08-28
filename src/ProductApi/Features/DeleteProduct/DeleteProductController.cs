@@ -18,7 +18,7 @@ public class DeleteProductController : ControllerBase
     }
 
     [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [HttpDelete("{id}", Name = RouteConstants.DeleteProduct)]
     public async Task<IActionResult> Delete(int id)
     {

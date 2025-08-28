@@ -18,8 +18,8 @@ public class UpdateProductController : ControllerBase
     }
 
     [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [HttpPut("{id}", Name = RouteConstants.UpdateProduct)]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateProductCommand command)
     {

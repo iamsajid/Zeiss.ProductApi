@@ -18,8 +18,8 @@ public class CreateProductController : ControllerBase
     }
 
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [HttpPost(Name = RouteConstants.CreateProduct)]
     public async Task<IActionResult> Create([FromBody] CreateProductCommand command)
     {
