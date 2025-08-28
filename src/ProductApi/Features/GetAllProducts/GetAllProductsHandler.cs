@@ -1,24 +1,23 @@
 namespace ProductApi.Features.GetAllProducts;
 
 using MediatR;
-using ProductApi.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
-
+using ProductApi.Common.Interfaces;
 
 public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, GetAllProductsResponseDto>
 {
-    private readonly ProductDbContext _context;
+    private readonly IProductRepository _repo;
 
-    public GetAllProductsHandler(ProductDbContext context)
+    public GetAllProductsHandler(IProductRepository repo)
     {
-        _context = context;
+        _repo = repo;
     }
 
     public async Task<GetAllProductsResponseDto> Handle(GetAllProductsQuery request, CancellationToken cancellationToken)
     {
-        var productDtos = await _context.Products
+        var products = await _repo.GetAllAsync();
+        var productDtos = products
             .Select(p => new ProductDto(p.ProductId, p.Name, p.Category, p.Price, p.AvailableStock, p.CreatedAt))
-            .ToListAsync(cancellationToken);
+            .ToList();
 
         return new GetAllProductsResponseDto(productDtos);
     }

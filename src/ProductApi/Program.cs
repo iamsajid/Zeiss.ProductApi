@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using ProductApi.Common.Interfaces;
 using ProductApi.Infrastructure.Data;
+using ProductApi.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,7 @@ builder.Services.AddDbContext<ProductDbContext>(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

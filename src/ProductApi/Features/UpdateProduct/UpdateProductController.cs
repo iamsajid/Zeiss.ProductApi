@@ -23,7 +23,7 @@ public class UpdateProductController : ControllerBase
     [HttpPut("{id}", Name = RouteConstants.UpdateProduct)]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateProductCommand command)
     {
-        if (id != command.Id) return BadRequest();
+        if (id != command.Id) return BadRequest("ID in URL does not match ID in body");
 
         var result = await _mediator.Send(command);
         if (!result) return NotFound();

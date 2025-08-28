@@ -1,16 +1,16 @@
 namespace ProductApi.Features.CreateProduct;
 
 using MediatR;
+using ProductApi.Common.Interfaces;
 using ProductApi.Domain;
-using ProductApi.Infrastructure.Data;
 
 public class CreateProductHandler : IRequestHandler<CreateProductCommand, int>
 {
-    private readonly ProductDbContext _db;
+    private readonly IProductRepository _repo;
 
-    public CreateProductHandler(ProductDbContext db)
+    public CreateProductHandler(IProductRepository repo)
     {
-        _db = db;
+        _repo = repo;
     }
 
     public async Task<int> Handle(CreateProductCommand request, CancellationToken cancellationToken)
@@ -23,8 +23,7 @@ public class CreateProductHandler : IRequestHandler<CreateProductCommand, int>
             AvailableStock = request.Stock
         };
 
-        _db.Products.Add(product);
-        await _db.SaveChangesAsync(cancellationToken);
+        await _repo.AddAsync(product);
 
         return product.ProductId;
     }

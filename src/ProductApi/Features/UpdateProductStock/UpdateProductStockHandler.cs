@@ -2,20 +2,20 @@ namespace ProductApi.Features.UpdateProductStock;
 
 using System;
 using MediatR;
-using ProductApi.Infrastructure.Data;
+using ProductApi.Common.Interfaces;
 
 public class UpdateProductStockHandler : IRequestHandler<UpdateProductStockCommand, bool>
 {
-    private readonly ProductDbContext _context;
+    private readonly IProductRepository _repo;
 
-    public UpdateProductStockHandler(ProductDbContext context)
+    public UpdateProductStockHandler(IProductRepository repo)
     {
-        _context = context;
+        _repo = repo;
     }
 
     public async Task<bool> Handle(UpdateProductStockCommand request, CancellationToken cancellationToken)
     {
-        var product = await _context.Products.FindAsync([request.ProductId], cancellationToken: cancellationToken);
+        var product = await _repo.GetByIdAsync(request.ProductId);
 
         if (product == null)
         {
@@ -40,7 +40,7 @@ public class UpdateProductStockHandler : IRequestHandler<UpdateProductStockComma
             product.AvailableStock -= request.Quantity;
         }
 
-        await _context.SaveChangesAsync(cancellationToken);
+        await _repo.UpdateAsync(product);
 
         return true;
     }
