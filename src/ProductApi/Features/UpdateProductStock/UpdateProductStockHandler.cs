@@ -35,6 +35,7 @@ public class UpdateProductStockHandler : IRequestHandler<UpdateProductStockComma
         {
             if (product.AvailableStock < request.Quantity)
             {
+                // TODO: Create a new AppException to show logical error and handle separately in middleware
                 throw new Exception("Not enough stock to decrease");
             }
             product.AvailableStock -= request.Quantity;
