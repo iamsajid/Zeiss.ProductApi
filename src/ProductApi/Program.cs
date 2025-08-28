@@ -6,14 +6,20 @@ using ProductApi.Common.Interfaces;
 using ProductApi.Common.Middleware;
 using ProductApi.Infrastructure.Data;
 using ProductApi.Infrastructure.Repositories;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddDbContext<ProductDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Register Redis connection and ID generator
+var redis = ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("RedisConnection"));
+builder.Services.AddSingleton<IConnectionMultiplexer>(redis);
+builder.Services.AddSingleton<IProductIdGenerator, RedisProductIdGenerator>();
+
+// Add services to the container.
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
