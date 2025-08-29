@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common/Filters/" />
     <Folder Include="Common/Helpers/" />
     <Folder Include="Features/DeleteProduct/" />
     <Folder Include="Features/UpdateProduct/" />

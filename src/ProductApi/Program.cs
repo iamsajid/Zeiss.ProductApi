@@ -2,6 +2,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ProductApi.Common.Behaviours;
+using ProductApi.Common.Filters;
 using ProductApi.Common.Interfaces;
 using ProductApi.Common.Middleware;
 using ProductApi.Infrastructure.Data;
@@ -10,7 +11,8 @@ using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+    options.Filters.Add<LoggingActionFilter>());
 builder.Services.AddDbContext<ProductDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -18,6 +20,7 @@ builder.Services.AddDbContext<ProductDbContext>(options =>
 var redis = ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("RedisConnection"));
 builder.Services.AddSingleton<IConnectionMultiplexer>(redis);
 builder.Services.AddSingleton<IProductIdGenerator, RedisProductIdGenerator>();
+builder.Services.AddScoped<LoggingActionFilter>();
 
 // Add services to the container.
 builder.Services.AddScoped<ProductRepository>();
