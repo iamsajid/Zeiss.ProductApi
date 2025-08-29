@@ -2,11 +2,13 @@
 namespace ProductApi.Features.GetAllProducts;
 
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductApi.Common.Constants;
 using ProductApi.Domain;
 
 [ApiController]
+[Authorize]
 [Tags(AppConstants.ApiTagName)]
 [ApiExplorerSettings(GroupName = AppConstants.ApiGroupName)]
 [Route("api/products")]

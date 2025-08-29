@@ -1,10 +1,12 @@
 namespace ProductApi.Features.UpdateProduct;
 
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductApi.Common.Constants;
 
 [ApiController]
+[Authorize(Roles = UserRoleType.Admin)]
 [Tags(AppConstants.ApiTagName)]
 [ApiExplorerSettings(GroupName = AppConstants.ApiGroupName)]
 [Route("api/products")]
@@ -20,6 +22,7 @@ public class UpdateProductController : ControllerBase
     [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
     [HttpPut("{id}", Name = RouteConstants.UpdateProduct)]
     public async Task<IActionResult> Update(int id, [FromBody] UpdateProductCommand command)
     {

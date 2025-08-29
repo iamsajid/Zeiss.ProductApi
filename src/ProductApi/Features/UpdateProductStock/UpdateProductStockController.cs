@@ -1,10 +1,12 @@
 namespace ProductApi.Features.UpdateProductStock;
 
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductApi.Common.Constants;
 
 [ApiController]
+[Authorize(Roles = UserRoleType.Admin)]
 [Tags(AppConstants.ApiTagName)]
 [ApiExplorerSettings(GroupName = AppConstants.ApiGroupName)]
 [Route("api/products")]
@@ -19,6 +21,7 @@ public class UpdateProductStockController : ControllerBase
 
     [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
     [HttpPut("add-to-stock/{productId}/{quantity}", Name = RouteConstants.AddToStock)]
     public async Task<IActionResult> UpdateStock(int productId, int quantity)
     {
@@ -35,6 +38,7 @@ public class UpdateProductStockController : ControllerBase
 
     [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status403Forbidden)]
     [HttpPut("decrement-stock/{productId}/{quantity}", Name = RouteConstants.RemoveFromStock)]
     public async Task<IActionResult> RemoveFromStock(int productId, int quantity)
     {
