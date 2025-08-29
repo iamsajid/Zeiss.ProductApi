@@ -20,6 +20,11 @@ public class GetAllProductsHandler : IRequestHandler<GetAllProductsQuery, PagedR
             .Select(p => new ProductDto(p.ProductId, p.Name, p.Category, p.Price, p.AvailableStock, p.CreatedAt))
             .ToList();
 
+        // Filter by category
+        if (!string.IsNullOrEmpty(request.Category))
+            productDtos = productDtos.Where(p => p.Category.Equals(request.Category, StringComparison.OrdinalIgnoreCase)).ToList();
+
+        // Pagination
         var totalCount = productDtos.Count;
         var pagedProducts = productDtos
             .Skip((request.PageNumber - 1) * request.PageSize)

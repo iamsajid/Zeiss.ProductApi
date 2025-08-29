@@ -1,3 +1,4 @@
+# nullable enable
 namespace ProductApi.Features.GetAllProducts;
 
 using MediatR;
@@ -23,17 +24,20 @@ public class GetAllProductsController : ControllerBase
     [ApiExplorerSettings(GroupName = AppConstants.ApiGroupName)]
     [ProducesResponseType(typeof(PagedResult<ProductDto>), StatusCodes.Status200OK)]
     [HttpGet(Name = RouteConstants.GetAllProducts)]
-    public async Task<ActionResult<PagedResult<ProductDto>>> Get([FromQuery] int? pageNumber, [FromQuery] int? pageSize)
+    public async Task<ActionResult<PagedResult<ProductDto>>> Get(
+        [FromQuery] int? pageNumber,
+        [FromQuery] int? pageSize,
+        [FromQuery] string? category)
     {
         var defaultPageNumber = _configuration.GetValue<int>("Pagination:DefaultPageNumber");
         var defaultPageSize = _configuration.GetValue<int>("Pagination:DefaultPageSize");
 
-        var query = new GetAllProductsQuery(pageNumber ?? defaultPageNumber, pageSize ?? defaultPageSize);
+        var query = new GetAllProductsQuery(pageNumber ?? defaultPageNumber, pageSize ?? defaultPageSize, category);
         var products = await _mediator.Send(query);
 
         if (products.PageCount > 0 && (pageNumber ?? defaultPageNumber) > products.PageCount)
             return BadRequest($"Page number {(pageNumber ?? defaultPageNumber)} is out of range. Maximum page is {products.PageCount}.");
-        
+
         return Ok(products);
     }
 }

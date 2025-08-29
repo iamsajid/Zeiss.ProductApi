@@ -1,10 +1,11 @@
+#nullable enable
 namespace ProductApi.Features.GetAllProducts;
 
 using FluentValidation;
 using MediatR;
 using ProductApi.Domain;
 
-public record GetAllProductsQuery(int PageNumber, int PageSize) : IRequest<PagedResult<ProductDto>>;
+public record GetAllProductsQuery(int PageNumber, int PageSize, string? Category = null) : IRequest<PagedResult<ProductDto>>;
 
 public record ProductDto(int Id, string Name, string Category, decimal Price, int AvailableStock, DateTime CreatedAt);
 
