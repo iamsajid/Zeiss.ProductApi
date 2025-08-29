@@ -20,7 +20,16 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(redis);
 builder.Services.AddSingleton<IProductIdGenerator, RedisProductIdGenerator>();
 
 // Add services to the container.
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<ProductRepository>();
+// Register RedisCachedProductRepository as the decorator for IProductRepository
+builder.Services.AddScoped<IProductRepository>(sp =>
+    new RedisCachedProductRepository(
+        sp.GetRequiredService<ProductRepository>(),
+        sp.GetRequiredService<IConnectionMultiplexer>(),
+        sp.GetRequiredService<IConfiguration>(),
+        sp.GetRequiredService<ILogger<RedisCachedProductRepository>>()
+    )
+);
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
