@@ -1,10 +1,23 @@
 namespace ProductApi.Features.GetAllProducts;
 
+using FluentValidation;
 using MediatR;
+using ProductApi.Domain;
 
-// TODO: add pagination properties
-public record GetAllProductsQuery() : IRequest<GetAllProductsResponseDto>;
-
-public record GetAllProductsResponseDto(List<ProductDto> Products);
+public record GetAllProductsQuery(int PageNumber, int PageSize) : IRequest<PagedResult<ProductDto>>;
 
 public record ProductDto(int Id, string Name, string Category, decimal Price, int AvailableStock, DateTime CreatedAt);
+
+public class GetAllProductsQueryValidator : AbstractValidator<GetAllProductsQuery>
+{
+    public GetAllProductsQueryValidator()
+    {
+        RuleFor(x => x.PageNumber)
+            .GreaterThan(0)
+            .WithMessage("PageNumber must be greater than 0.");
+
+        RuleFor(x => x.PageSize)
+            .InclusiveBetween(1, 50)
+            .WithMessage("PageSize must be between 1 and 50.");
+    }
+}
