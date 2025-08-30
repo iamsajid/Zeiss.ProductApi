@@ -27,6 +27,8 @@ public class CreateProductController : ControllerBase
     public async Task<IActionResult> Create([FromBody] CreateProductCommand command)
     {
         var id = await _mediator.Send(command);
-        return CreatedAtRoute(RouteConstants.GetProductById, new { id }, id);
+        if (id > 0)
+            return CreatedAtRoute(RouteConstants.GetProductById, new { id }, id);
+        return BadRequest();
     }
 }

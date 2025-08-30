@@ -3,13 +3,13 @@ namespace ProductApi.Features.UpdateProduct;
 using FluentValidation;
 using MediatR;
 
-public record UpdateProductCommand(int Id, string Name, string Category, decimal Price, int AvailableStock) : IRequest<bool>;
+public record UpdateProductCommand(int ProductId, string Name, string Category, decimal Price, int AvailableStock) : IRequest<bool>;
 
 public class Validator : AbstractValidator<UpdateProductCommand>
 {
     public Validator()
     {
-        RuleFor(x => x.Id)
+        RuleFor(x => x.ProductId)
             .InclusiveBetween(100000, 999999)
             .WithMessage("Product ID must be a 6-digit number.");
 

@@ -14,7 +14,7 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, bool>
 
     public async Task<bool> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
-        var product = await _repo.GetByIdAsync(request.Id);
+        var product = await _repo.GetByIdAsync(request.ProductId);
         if (product == null) return false;
 
         product.Name = request.Name;

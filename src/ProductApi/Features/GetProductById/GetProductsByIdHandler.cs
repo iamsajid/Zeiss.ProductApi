@@ -14,7 +14,7 @@ public class GetProductsByIdHandler : IRequestHandler<GetProductsByIdQuery, Prod
 
     public async Task<ProductByIdDto> Handle(GetProductsByIdQuery request, CancellationToken cancellationToken)
     {
-        var product = await _repo.GetByIdAsync(request.Id);
+        var product = await _repo.GetByIdAsync(request.ProductId);
         if (product == null) return null;
 
         return new ProductByIdDto(product.ProductId, product.Name, product.Category, product.Price, product.AvailableStock, product.CreatedAt);
