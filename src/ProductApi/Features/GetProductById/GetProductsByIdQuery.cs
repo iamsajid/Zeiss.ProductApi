@@ -6,7 +6,7 @@ using MediatR;
 
 public record GetProductsByIdQuery(int ProductId) : IRequest<ProductByIdDto>;
 
-public record ProductByIdDto(int Id, string Name, string Category, decimal Price, int AvailableStock, DateTime CreatedAt);
+public record ProductByIdDto(int ProductId, string Name, string Category, decimal Price, int AvailableStock, DateTime CreatedAt);
 
 public class Validator : AbstractValidator<GetProductsByIdQuery>
 {

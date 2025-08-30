@@ -4,10 +4,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using ProductApi.Common.Constants;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProductApi.Features.Authentication;
 
 [ApiController]
+[AllowAnonymous]
 [ApiExplorerSettings(GroupName = AppConstants.ApiGroupName)]
 [Route("api/auth")]
 public class AuthController : ControllerBase
